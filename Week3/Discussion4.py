@@ -49,5 +49,7 @@ for i in range(2*n):
     if (i < n):
         index = i
     else:
-        pass
-    # todo 
+        index = 10 - i
+    print(' ' * (n - index), end = "")
+    print('*' * (2 * index - 1), end = "")
+    print('\n', end = "")
