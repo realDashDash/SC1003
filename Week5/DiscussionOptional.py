@@ -8,24 +8,29 @@ def query(database, group, id):
 
 def listGrades(database, group):
     grades = []
-    for i in range(40):
-        try: 
-            grades.append(database[(group, i)])
-        except:
-            pass
+    for item in database:
+        if (item[0] == group):
+            grades.append(database[item])
     return grades
 
-def maxGrade(dataBase, group):
+def maxGrade(database, group):
     max = 0
-    for i in range(40):
-        try:
-            if (dataBase[(group, i)] > max):
-                max = dataBase[(group, i)]
-        except:
-            pass
+    for item in database:
+        if (item[0] == group and database[item] > max):
+            max = database[item]
     return max
 
+def getGroup(database):
+    names = []
+    for item in database:
+        if (item[0] in names):
+            pass
+        else:
+            names.append(item[0])
+    return names
+
 grades = {}
+# grades = {("SC9", 29):99, ("SC9", 28):80, ("SC9", 27):70, ("SC8", 1):100, ("SC9", 1):90}
 
 print("Welcome to the grading system! Please enter your option:")
 print("1: input a record")
@@ -38,6 +43,7 @@ print("6: exit")
 while(True):
     option = int(input("option: "))
     if (option == 6):
+        print("Thank you for using our system!")
         break
 
     elif (option == 1):
@@ -52,4 +58,12 @@ while(True):
         print(query(grades, group, id))
         
     elif (option == 3):
-
+        group = input("Enter group: ")
+        print(listGrades(grades, group))
+    
+    elif (option == 4):
+        group = input("Enter group: ")
+        print(maxGrade(grades, group))
+    
+    elif (option == 5):
+        print(getGroup(grades))
