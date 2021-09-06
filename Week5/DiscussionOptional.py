@@ -1,24 +1,52 @@
 # student_info = {("Group", id):score}
 
 def inputRecored(database, group, id, score):
-    database[(group, id)] = score
+    ''' Funcion: Enter a record in the database.
+    '''
+    key = (group, id)
+    value = score
+    if key in database.keys():
+        print("Sorry. Record already exists.")
+        return None.
+    else:
+        database[key] = value
 
 def query(database, group, id):
-    return database[(group, id)]
+    ''' Function to query a record in the database
+        input: database name(database), record id (group, id)
+        output: the scoure of the student
+    '''
+    key = (group, id)
+    if key not in database.keys():
+        print("Sorry, the record does not exist.")
+        return None
+    else:
+        return database[(group, id)]
 
 def listGrades(database, group):
-    grades = []
-    for item in database:
-        if (item[0] == group):
-            grades.append(database[item])
-    return grades
+    ''' Returns list of scores in a group
+    '''
+    # grades = []
+    # for item in database:
+    #     if (item[0] == group):
+    #         grades.append(database[item])
+    # return grades
+    scorelist = []
+    for key, value in database.items():
+        if key[0] == group:
+            scorelist.append(value)
+    return scorelist
+
 
 def maxGrade(database, group):
-    max = 0
-    for item in database:
-        if (item[0] == group and database[item] > max):
-            max = database[item]
-    return max
+    # max = 0
+    # for item in database:
+    #     if (item[0] == group and database[item] > max):
+    #         max = database[item]
+    # return max
+    scorelist = listGrades(database, group)
+    maxscore = max(scorelist)
+    return maxscore
 
 def getGroup(database):
     names = []
