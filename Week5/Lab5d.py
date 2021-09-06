@@ -36,7 +36,8 @@ def get_acc():
         return 3
     else:
         return None
-        
+
+counter = 0
 while (True):
     rotation = randint(0, 3)
     sense.set_rotation(90 * rotation)
@@ -52,8 +53,10 @@ while (True):
         if (flag == False):
             sense.set_pixels(image_pixels(R))
             time.sleep(0.5)
-            sense.show_message("You lose !")
+            sense.show_message("Lose")
+            print("Score: ", counter)
             break
         else:
+            counter += 1
             time.sleep(time_end - time.time())
         
