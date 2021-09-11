@@ -7,7 +7,7 @@ def inputRecored(database, group, id, score):
     value = score
     if key in database.keys():
         print("Sorry. Record already exists.")
-        return None.
+        return None
     else:
         database[key] = value
 
