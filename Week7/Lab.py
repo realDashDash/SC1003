@@ -1,4 +1,6 @@
+
 from sense_hat import SenseHat
+from random import randint
 import time
 sense = SenseHat()
 
@@ -15,29 +17,32 @@ w = (255, 255, 255) # white
 b = (0, 0, 0) # black
 r = (255, 0, 0)
 g = (0, 255, 0)
-# showing basic board
-board = [[r,r,r,r,r,r,r,r],
-        [r,b,b,b,b,b,b,r],
-        [r,b,b,b,b,b,b,r],
-        [r,b,b,b,b,b,b,r],
-        [r,b,b,b,b,b,b,r],
-        [r,b,b,b,b,b,b,r],
-        [r,b,b,b,b,b,b,r],
-        [r,r,r,r,r,r,r,r] ]
-# Base positon of the marble
-x = 2
-y = 2
 
-# set target
-tar_x = 5
-tar_y = 5
-board[y][x] = g
+# Sample board
+# board = [[r,r,r,r,r,r,r,r],
+#         [r,b,b,b,b,b,b,r],
+#         [r,b,b,b,b,b,b,r],
+#         [r,b,b,b,b,b,b,r],
+#         [r,b,b,b,b,b,b,r],
+#         [r,b,b,b,b,b,b,r],
+#         [r,b,b,b,b,b,b,r],
+#         [r,r,r,r,r,r,r,r] ]
+# Self-defined board
+board = [[r,r,r,r,b,b,b,r],
+        [r,b,b,b,b,b,b,r],
+        [b,b,b,b,r,r,r,r],
+        [r,r,b,b,r,b,b,r],
+        [r,b,b,b,b,b,b,b],
+        [r,b,b,r,b,b,b,b],
+        [r,b,b,r,b,b,b,r],
+        [r,r,r,r,r,r,r,r] ]
+        
     
 # Dislay Board and marble:
 def display_board(board, x, y):
-    board
-    board[y][x] = w #marble position
-    board_1d = sum(board, [])
+    new_board = board
+    new_board[y][x] = w #marble position
+    board_1d = sum(new_board, [])
 #    print(board_1d)
     sense.set_pixels(board_1d)
 
@@ -70,15 +75,39 @@ def move_marble(pitch, roll, x, y):
     new_x, new_y = check_wall(x, y, new_x, new_y)
     return new_x, new_y
 
-game_over = False
-while (not game_over):
-    pitch, roll = get_ori()
-    x, y = move_marble(pitch, roll, x, y)
-    display_board(board, x, y)
-    if x == tar_x and y == tar_y:
-        game_over = True
+def Game():
+    game_over = False
+    
+    # Base positon of the marble
+    x = 1
+    y = 1
+    
+    # set target
+    tar = True
+    while(tar):
+        tar_x = randint(0, 7)
+        tar_y = randint(0, 7)
+        if  board[tar_y][tar_x] != r:
+            board[tar_y][tar_x] = g
+            tar = False
+        else:
+            pass
+
+    while (not game_over):
+        pitch, roll = get_ori()
+        x, y = move_marble(pitch, roll, x, y)
+        new_board = board
+        new_board[y][x] = w #marble position
+        board_1d = sum(new_board, [])
+        sense.set_pixels(board_1d)
+        if x == tar_x and y == tar_y:
+            game_over = True
+        else:
+            new_board[y][x] = b
+        time.sleep(0.02)
     else:
-        pass
-    time.sleep(0.05)
-else:
-    sense.show_mesage("Yay!")
+        sense.set_rotation(180)
+        sense.show_message("Yay!")
+    
+if __name__ == "__main__":
+    Game()
