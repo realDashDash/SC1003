@@ -24,5 +24,8 @@ int main(void) {
         }
     }
 
+    printf("%c", grade);
+    getchar();
+
     return 0;
 }
